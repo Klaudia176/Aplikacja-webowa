@@ -1,0 +1,69 @@
+<%= stylesheet_link_tag('authors.css') %>
+<div class="cont">
+
+<div class="a">
+<%= image_tag "logo2.png", height: 90 %>
+</div>
+
+<div class="b">
+
+<ol>
+    <li><%= link_to "Home", "/index", class:"bookmark", id: "bookmark1" %></li>
+    <li><%= link_to "Logowanie", "/logowanie", class:"bookmark" , id: "bookmark4"%></li>
+    <li><%= link_to "Pomoc", "/help", class:"bookmark", id: "bookmark2" %></li>
+    <li><%= link_to "Autorzy", "/authors", class:"bookmark", id: "bookmark3" %></li>
+</ol>
+
+</div>
+
+<div class="c">
+<form>
+<input type="search" id="searchInput" placeholder="Szukaj na stronie...">
+<button type="button" class="button" id="searchButton"><b> 🔎 </b></button>
+</form>
+</div>
+</div>
+
+<div class="main">
+
+<div class="e">
+<%= image_tag "logo3.png", height: 350 %>
+</div>
+
+<div class="d">
+<h1>O nas</h1>
+<h2> Autorzy </h2>
+<p> Ta strona została stworzona przez Zuzannę Hypś i Klaudię Korejwo. </p>
+</div>
+</div>
+
+<footer>
+    <p>&copy; 2023 Obsługa Pracy Dyplomowej</p>
+</footer>
+
+<script>
+function redirectToMatchingBookmark() {
+ 
+    var searchText = document.getElementById('searchInput').value.toLowerCase();
+
+    var bookmarks = document.querySelectorAll('.bookmark');
+
+    for (var i = 0; i < bookmarks.length; i++) {
+        var bookmark = bookmarks[i];
+      
+        var bookmarkText = bookmark.innerText.toLowerCase();
+
+        if (bookmarkText.includes(searchText)) {
+            // Przekieruj do pasującej zakładki
+            window.location.href = bookmark.href;
+            return;
+        }
+    }
+
+    alert("Nie znaleziono pasującej zakładki");
+}
+
+document.getElementById('searchButton').addEventListener('click', function() {
+    redirectToMatchingBookmark();
+});
+</script>

@@ -1,0 +1,75 @@
+table {
+    margin-bottom: 60px;
+    width: 98%;
+    border-collapse: collapse;
+    margin-left: 10px;
+  }
+  
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  td.t {
+    font-weight: bold;
+  }
+  
+  tr.dwa {
+    background-color: #e5e4e2;
+  }
+  
+  tr.h {
+    height: 100px;
+  }
+  
+  tr.hd {
+    height: 100px;
+    background-color: #e5e4e2;
+  }
+  
+  tr:hover {
+    background-color: #7CB06D;
+  }
+
+  .p {
+    text-align: right;
+    float: left;
+    width: 18%;
+    margin-bottom: 60px;
+    margin-top: -20px;
+  }
+  
+
+  h4 {
+    border: 3px outset #7CB06D;
+    text-align: center;
+    margin-top: 25px;
+    margin-left: 25px;
+    padding: 0;
+    }
+    
+.studenci {
+    width: 70%;
+    margin-top: 100px;
+    padding: 20px;
+  }
+
+  .przycisk {
+    border: 3px solid #7CB06D;
+    color: #383E42;
+    border-radius: 5px;
+    text-decoration: dotted;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+  }
+  
+  .przycisk:hover {
+    background-color: #7CB06D;
+    color: white;
+    border-color: #7CB06D;
+  }

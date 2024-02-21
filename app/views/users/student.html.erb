@@ -1,0 +1,122 @@
+<%= stylesheet_link_tag('app.css') %>
+<div class="cont">
+<div class="a">
+<%= image_tag "logo2.png", height: 90 %>
+</div>
+
+<div class="b">
+<div id="bookmarksContainer">
+<ol>
+<li><%= link_to "Home", "/student", class:"bookmark", id: "bookmark7" %></li>
+<li><span class="bookmark">Praca dyplomowa</span>
+  <ul>
+    <li><%= link_to "Harmonogram", "/harmonogram", class:"bookmark", id: "bookmark1" %></li>
+    <li><%= link_to "Materiały", "/materialy", class:"bookmark", id: "bookmark2" %></li>
+    <li><%= link_to "Instrukcja", "/instrukcja", class:"bookmark", id: "bookmark3" %></li>
+    <li><%= link_to "Prześlij pracę", "/praca", class:"bookmark", id: "bookmark4" %></li>
+  </ul>
+</li>
+<li><%= link_to "Pomoc", "/pomoc", class:"bookmark", id: "bookmark5" %></li>
+<li><%= link_to "Wyloguj się", "/wyloguj",class:"bookmark", id: "bookmark6" %></li>
+</ol>
+</div>
+</div>
+
+<div class="c">
+<form>
+<input type="search" id="searchInput" placeholder="Szukaj na stronie...">
+<button type="button" class="przycisk" id="searchButton"><b> 🔎 </b></button>
+</form>
+</div>
+
+
+<div class="main">
+
+<div class="lewy">
+<p class="tek">Przed złożeniem swojej pracy przeczytaj instrukcję (Praca dyplomowa → Instrukcja) oraz upewnij się, że masz przydzielonego promotora, następnie przejdź do zakładki "Praca dyplomowa"
+i wybierz opcję "Prześlij pracę".</p>
+<p class="tek">Dodatkowo możesz sprawdzić termin oddania swojej pracy w zakładce Praca dyplomowa → Harmonogram.</p>
+<p class="tek">Przygotowaliśmy też dla Ciebie sekcję "Materiały", która może okazać się przydatna przy pisaniu pracy.</p>
+<center><%= image_tag "logo3.png", height: 150%></center>
+<div class="lewy_d">
+<h4>Aktualny czas: 
+<p id="currentDateTime"></p></h4>
+</div>
+</div>
+
+<div class="prawy">
+<div class="pra">
+<center><h1>Zostałeś zalogowany jako <span class="indeks"><%= current_user.index %></span></h1></center>
+<center><h3>Termin oddania pracy dyplomowej mija za:</h3></center>
+<span class="czas"><p id="countdown"></p></span>
+</div>
+</div>
+</div>
+</div>
+
+<footer>
+    <p>&copy; 2023 Obsługa Pracy Dyplomowej</p>
+</footer>
+
+
+
+<script>
+
+function redirectToMatchingBookmark() {
+ 
+var searchText = document.getElementById('searchInput').value.toLowerCase();
+
+var bookmarks = document.querySelectorAll('.bookmark');
+
+for (var i = 0; i < bookmarks.length; i++) {
+    var bookmark = bookmarks[i];
+  
+    var bookmarkText = bookmark.innerText.toLowerCase();
+
+    if (bookmarkText.includes(searchText)) {
+        // Przekieruj do pasującej zakładki
+        window.location.href = bookmark.href;
+        return;
+    }
+}
+
+alert("Nie znaleziono pasującej zakładki");
+}
+
+document.getElementById('searchButton').addEventListener('click', function() {
+redirectToMatchingBookmark();
+});
+
+  function updateDateTime() {
+    var currentDate = new Date();
+    var day = currentDate.toLocaleDateString();
+    var time = currentDate.toLocaleTimeString();
+
+    var dateTimeString = day + ' ' + time;
+    document.getElementById('currentDateTime').innerHTML = dateTimeString;
+  }
+
+  setInterval(updateDateTime, 1000);
+
+  window.onload = updateDateTime;
+
+
+  var targetDate = new Date("January 28, 2024 00:00:00").getTime();
+
+  var countdownInterval = setInterval(function() {
+      var currentDate = new Date().getTime();
+      var timeDifference = targetDate - currentDate;
+
+      var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      document.getElementById('countdown').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+      if (timeDifference < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('countdown').innerHTML = "Czas minął!";
+      }
+  }, 1000);
+  
+</script>

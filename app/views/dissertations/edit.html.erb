@@ -1,0 +1,161 @@
+<%= stylesheet_link_tag('pra.css') %>
+<div class="cont">
+<div class="a">
+<%= image_tag "logo2.png", height: 90 %>
+</div>
+<div class="b">
+<div id="bookmarksContainer">
+<ol>
+    <li><%= link_to "Home", "/promoter", class:"bookmark", id: "bookmark1" %></li>
+    <li><%= link_to "Studenci", "/studenci", class:"bookmark", id: "bookmark2" %></li>
+    <li><%= link_to "Wyloguj", "/wylogowanie", class:"bookmark" , id: "bookmark3"%></li>
+</ol>
+</div>
+</div>
+
+<div class="c">
+<form>
+<input type="search" id="searchInput" placeholder="Szukaj na stronie...">
+<button type="button" class="button" id="searchButton"><b> 🔎 </b></button>
+</form>
+</div>
+</div>
+
+<div class="m">
+<div class="l">
+<h2> Otrzymana praca od studenta </h2>
+</div>
+<div class="p">
+<h4>Aktualny czas
+<p id="currentDateTime"></p></h4>
+</div>
+<table>
+<tr class="dwa">
+    <td class="t"><center> Indeks studenta: </center></td>
+    <td><center><%= @dissertation.student_index %></center></td>
+        </tr>
+        <tr class="t">  
+        <td class="t"><center>Status przesłania Pracy Dyplomowej:</center></td>
+            <% if @dissertation.pdf.attached? %>
+                <% if @dissertation.mark.present? %>
+                <td class="tex"><center> Oceniona<center></td>
+                <% else %>
+                <td><center> Przesłano do oceny<center></td>
+                <% end %>
+          <% else %>
+          <td><center>Brak przesłanych plików</center></td>
+          <% end %>
+        </tr>
+        <tr class="dwa">
+            <td class="t"><center>Ostatnia modyfikacja:</center></td>
+            <td><center><%= @dissertation.sending_date %></center> </td>
+        </tr> 
+        <tr class="tr">
+            <td class="t"><center>Praca Dyplomowa:</center></td>
+                <% if @dissertation.pdf.attached? && @dissertation.pdf.present? %>
+                    <td><center><%= link_to @dissertation.pdf.filename %></center></td>
+                <% else %>
+                    <td><center>Brak przesłanej pracy</center></td>
+                <% end %>
+        </tr> 
+        <tr class="dwa">
+        <td class="t"><center>Stan oceniania:</center></td>
+        <td>
+        <%= form_with(model: @dissertation, url: dissertation_path(@dissertation), method: :patch, multipart: true) do |form| %>
+            <center>
+                        <input type="radio" id="zaakceptowana" name="fav_language" value="zaakceptowana">
+                        <label for="zaakceptowana">Zaakceptowana</label><br>
+                        <input type="radio" id="Odrzucona" name="fav_language" value="Odrzucona">
+                        <label for="Odrzucona">Odrzucona</label><br>
+            </center>
+        
+        </td>
+        <tr class="tr">
+        <td class="t"><center>Ocena:</center></td>
+        <td><center><%= form.number_field :mark, class: "pole"  %></center></td>
+        </tr>
+        <tr class="dwa">
+        <td class="t"><center>Komentarz:</center></td>
+        <td><center><%= form.text_field :feedback, class: "pole" %></center></td>
+        </tr>
+        <tr class="tr">
+        <td class="t"><center>Recenzja:</center></td>
+            <% if @dissertation.review_pdf.attached? && @dissertation.review_pdf.present? %>
+            <td><center><%= link_to @dissertation.review_pdf.filename  %></center></td>
+            <% else %>
+                <td><center>Brak recenzji</center></td>
+            <% end %>
+        </tr>
+        </tr>
+        </tbody>
+    </table>
+    <center><%= form.file_field :review_pdf, class: :button %></center>
+            <center><%= form.submit 'Dodaj recenzje', class: :przycisk %></center>
+          <% end %>
+</div>
+
+
+
+
+
+<footer>
+    <p>&copy; 2023 Obsługa Pracy Dyplomowej</p>
+</footer>
+
+<script>
+
+function redirectToMatchingBookmark() {
+ 
+var searchText = document.getElementById('searchInput').value.toLowerCase();
+
+var bookmarks = document.querySelectorAll('.bookmark');
+
+for (var i = 0; i < bookmarks.length; i++) {
+    var bookmark = bookmarks[i];
+  
+    var bookmarkText = bookmark.innerText.toLowerCase();
+
+    if (bookmarkText.includes(searchText)) {
+        // Przekieruj do pasującej zakładki
+        window.location.href = bookmark.href;
+        return;
+    }
+}
+
+alert("Nie znaleziono pasującej zakładki");
+}
+
+function updateDateTime() {
+    var currentDate = new Date();
+    var day = currentDate.toLocaleDateString();
+    var time = currentDate.toLocaleTimeString();
+
+    var dateTimeString = day + ' ' + time;
+    document.getElementById('currentDateTime').innerHTML = dateTimeString;
+  }
+
+  setInterval(updateDateTime, 1000);
+
+  window.onload = updateDateTime;
+
+
+  var targetDate = new Date("January 5, 2024 00:00:00").getTime();
+
+  var countdownInterval = setInterval(function() {
+      var currentDate = new Date().getTime();
+      var timeDifference = targetDate - currentDate;
+
+      var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      document.getElementById('countdown').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+      if (timeDifference < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('countdown').innerHTML = "Czas minął!";
+      }
+  }, 1000);
+  
+
+  </script>
